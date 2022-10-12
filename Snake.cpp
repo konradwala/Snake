@@ -15,7 +15,7 @@
 
 int main()
 {
-	ShowWindow(GetConsoleWindow(), SW_HIDE);
+	//ShowWindow(GetConsoleWindow(), SW_HIDE);
 
 	sf::RenderWindow  window(sf::VideoMode(450, 600, 32), "Snake");
 
@@ -43,6 +43,8 @@ int main()
 		snake->direction(event);
 
 		snake->create_apple();
+
+		snake->writing(0, 0, 5, 0);
 
 		snake->get_point();
 

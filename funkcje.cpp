@@ -31,13 +31,13 @@ Snake::Snake()
 
 	for (int i = 0; i < 3; i++)
 	{
-		sf::RectangleShape segment(sf::Vector2f(30,30));
-		segment.setPosition(210 , 300+ i * 30);
+		sf::RectangleShape segment(sf::Vector2f(30, 30));
+		segment.setPosition(210, 300 + i * 30);
 		segment.setFillColor(sf::Color::Black);
 		body.push_back(segment);
 	}
 
-	apple.setSize(sf::Vector2f(30,30));
+	apple.setSize(sf::Vector2f(30, 30));
 	apple.setFillColor(sf::Color::Red);
 }
 
@@ -46,22 +46,22 @@ void Snake::draw(sf::RenderWindow& window)
 	window.draw(apple);
 	for (int i = 0; i < body.size(); i++)
 		window.draw(body[i]);
-	
+
 }
 
 void Snake::move()
 {
-	
+
 
 	if (speed == 65)
 	{
-		for (int i = body.size()-1; i > 0; i--)
+		for (int i = body.size() - 1; i > 0; i--)
 		{
-			body[i].setPosition(body[i-1].getPosition().x, body[i-1].getPosition().y);
+			body[i].setPosition(body[i - 1].getPosition().x, body[i - 1].getPosition().y);
 		}
 		body[0].move(movex * 30, movey * 30);
 		speed = 0;
-	
+
 	}
 	speed++;
 
@@ -128,7 +128,7 @@ void Snake::get_point()
 		}
 
 	}
-	
+
 }
 
 void Snake::colision()
@@ -140,7 +140,7 @@ void Snake::colision()
 			end = true;
 			//std::cout << "Game over!" << std::endl;
 		}
-			
+
 	}
 }
 
@@ -148,9 +148,36 @@ void Snake::writing(int startX, int startY, int scale, std::string inscription)
 {
 	std::string line;
 	std::ifstream plik("bitmap.txt");
-	getline(plik, line);
+	for (int i = 0; i < inscription.size(); i++) // navigate through the signs of "inspiration"
+	{
+		std::string sign = inscription.substr(i, 1); //downloading sign
+		while (true)
+		{
+			getline(plik, line);
+			if (sign == line.substr(0, 1))  //searching a template for this sign
+			{
+				int counter = 2;
 
+				for (int y = 0; y < 7; y++)    //generating next pixels
+				{
+					for (int x = 0; x < 5; x++)
+					{
+						if (line.substr(counter, 1) == "1")
+						{
+							sf::RectangleShape pixel;
+							pixel.setSize(sf::Vector2f(scale, scale));
+							pixel.setFillColor(sf::Color::Black);
+							pixel.setPosition(startX + (x * scale), startY + (y * scale));
 
+							signs.push_back(pixel);
+						}
+
+						counter++;
+					}
+				}
+			}
+		}
+	}
 }
 
 
