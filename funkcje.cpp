@@ -53,7 +53,7 @@ void Snake::move()
 {
 	
 
-	if (speed == 60)
+	if (speed == 65)
 	{
 		for (int i = body.size()-1; i > 0; i--)
 		{
@@ -142,6 +142,15 @@ void Snake::colision()
 		}
 			
 	}
+}
+
+void Snake::writing(int startX, int startY, int scale, std::string inscription)
+{
+	std::string line;
+	std::ifstream plik("bitmap.txt");
+	getline(plik, line);
+
+
 }
 
 

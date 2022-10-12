@@ -32,6 +32,8 @@ public:
 	void create_apple();
 	void get_point();
 	void colision();
+	void writing(int startX, int startY, int scale, std::string inscription);
+	std::vector<sf::RectangleShape> signs;
 };
 
 #endif
