@@ -17,7 +17,8 @@ class Snake
 {
 public:
 	
-	int score;
+	std::string scoreString;
+	int scoreInt;
 	int speed;
 	int movex;
 	int movey;

@@ -22,7 +22,7 @@ int randomInt(int min, int max)
 
 Snake::Snake()
 {
-	score = 0;
+	scoreInt = 0;
 	movex = 0;
 	movey = -1;
 	speed = 60;
@@ -39,6 +39,8 @@ Snake::Snake()
 
 	apple.setSize(sf::Vector2f(30, 30));
 	apple.setFillColor(sf::Color::Red);
+
+	
 }
 
 void Snake::draw(sf::RenderWindow& window)
@@ -46,6 +48,8 @@ void Snake::draw(sf::RenderWindow& window)
 	window.draw(apple);
 	for (int i = 0; i < body.size(); i++)
 		window.draw(body[i]);
+	for (int i = 0; i < signs.size(); i++)
+		window.draw(signs[i]);
 
 }
 
@@ -118,13 +122,14 @@ void Snake::get_point()
 	{
 		if (body[i].getPosition() == apple.getPosition())
 		{
-			score++;
+			scoreInt++;
+			scoreString = std::to_string(scoreInt);
 			eaten = true;
 			sf::RectangleShape add(sf::Vector2f(30, 30));
 			add.setFillColor(sf::Color::Black);
 			add.setPosition(-60, -60);
 			body.push_back(add);
-			//std::cout << "Score: " << score << std::endl;
+			writing(5, 5, 3, scoreString);
 		}
 
 	}
@@ -146,13 +151,17 @@ void Snake::colision()
 
 void Snake::writing(int startX, int startY, int scale, std::string inscription)
 {
-	std::string line;
-	std::ifstream plik("bitmap.txt");
-	for (int i = 0; i < inscription.size(); i++) // navigate through the signs of "inspiration"
+	signs.clear();
+	
+	for (int i = 0; i < inscription.length(); i++) // navigate through the signs of "inspiration"
 	{
+		std::string line;
+		std::ifstream plik("bitmap.txt");
+
 		std::string sign = inscription.substr(i, 1); //downloading sign
 		while (true)
 		{
+			
 			getline(plik, line);
 			if (sign == line.substr(0, 1))  //searching a template for this sign
 			{
@@ -167,7 +176,7 @@ void Snake::writing(int startX, int startY, int scale, std::string inscription)
 							sf::RectangleShape pixel;
 							pixel.setSize(sf::Vector2f(scale, scale));
 							pixel.setFillColor(sf::Color::Black);
-							pixel.setPosition(startX + (x * scale), startY + (y * scale));
+							pixel.setPosition(startX + (x * scale)+(i*6*scale), startY + (y * scale));
 
 							signs.push_back(pixel);
 						}
@@ -175,7 +184,9 @@ void Snake::writing(int startX, int startY, int scale, std::string inscription)
 						counter++;
 					}
 				}
+				break;
 			}
+			
 		}
 	}
 }

@@ -44,8 +44,6 @@ int main()
 
 		snake->create_apple();
 
-		snake->writing(0, 0, 5, 0);
-
 		snake->get_point();
 
 		snake->colision();
