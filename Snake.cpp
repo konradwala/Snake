@@ -46,6 +46,8 @@ int main()
 
 		snake->get_point();
 
+		//snake->creatingUpMargin();
+
 		snake->colision();
 
 		if (snake->end == true)

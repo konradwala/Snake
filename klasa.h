@@ -17,8 +17,8 @@ class Snake
 {
 public:
 	
-	std::string scoreString;
 	int scoreInt;
+	int theBestScore;
 	int speed;
 	int movex;
 	int movey;
@@ -35,6 +35,9 @@ public:
 	void colision();
 	void writing(int startX, int startY, int scale, std::string inscription);
 	std::vector<sf::RectangleShape> signs;
+	void creatingUpMargin();
+	void bestScore();
+	~Snake();
 };
 
 #endif

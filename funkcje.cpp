@@ -40,7 +40,9 @@ Snake::Snake()
 	apple.setSize(sf::Vector2f(30, 30));
 	apple.setFillColor(sf::Color::Red);
 
-	
+	bestScore();
+	creatingUpMargin();
+		
 }
 
 void Snake::draw(sf::RenderWindow& window)
@@ -75,7 +77,7 @@ void Snake::move()
 		body[0].move(450, 0);
 	if (body[0].getPosition().y == 600)
 		body[0].move(0, -600);
-	if (body[0].getPosition().y == -30)
+	if (body[0].getPosition().y == 0)
 		body[0].move(0, 600);
 }
 
@@ -111,7 +113,7 @@ void Snake::create_apple()
 {
 	if (eaten == true)
 	{
-		apple.setPosition(randomInt(0, 14) * 30, randomInt(0, 19) * 30);
+		apple.setPosition(randomInt(0, 14) * 30, randomInt(1, 19) * 30);
 		eaten = false;
 	}
 }
@@ -123,13 +125,13 @@ void Snake::get_point()
 		if (body[i].getPosition() == apple.getPosition())
 		{
 			scoreInt++;
-			scoreString = std::to_string(scoreInt);
 			eaten = true;
 			sf::RectangleShape add(sf::Vector2f(30, 30));
 			add.setFillColor(sf::Color::Black);
 			add.setPosition(-60, -60);
 			body.push_back(add);
-			writing(5, 5, 3, scoreString);
+
+			creatingUpMargin();
 		}
 
 	}
@@ -153,6 +155,7 @@ void Snake::writing(int startX, int startY, int scale, std::string inscription)
 {
 	signs.clear();
 	
+	
 	for (int i = 0; i < inscription.length(); i++) // navigate through the signs of "inspiration"
 	{
 		std::string line;
@@ -175,7 +178,7 @@ void Snake::writing(int startX, int startY, int scale, std::string inscription)
 						{
 							sf::RectangleShape pixel;
 							pixel.setSize(sf::Vector2f(scale, scale));
-							pixel.setFillColor(sf::Color::Black);
+							pixel.setFillColor(sf::Color::Green);
 							pixel.setPosition(startX + (x * scale)+(i*6*scale), startY + (y * scale));
 
 							signs.push_back(pixel);
@@ -191,5 +194,33 @@ void Snake::writing(int startX, int startY, int scale, std::string inscription)
 	}
 }
 
+void Snake::creatingUpMargin()
+{
+	
+	std::string score = "Score:" + std::to_string(scoreInt);
 
+	std::string bestScore = "Best score:" + std::to_string(theBestScore);
 
+	writing(5, 5, 3, score);
+	writing(200, 5, 3, bestScore);
+}	
+
+void Snake::bestScore()
+{
+	std::string line;
+	std::ifstream source("thebestscore.txt");
+	getline(source, line);
+	theBestScore = atoi(line.c_str());
+
+	if (scoreInt > theBestScore)
+	{
+		std::ofstream source("thebestscore.txt");
+		source << scoreInt;
+		source.close();
+	}
+}
+
+Snake::~Snake()
+{
+	bestScore();
+}
