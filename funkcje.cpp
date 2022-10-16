@@ -11,6 +11,7 @@
 #include <fstream>
 #include <math.h>
 #include <memory>
+#include <time.h>
 
 int randomInt(int min, int max)
 {
@@ -25,7 +26,7 @@ Snake::Snake()
 	scoreInt = 0;
 	movex = 0;
 	movey = -1;
-	speed = 60;
+	speed = 0;
 	eaten = true;
 	end = false;
 
@@ -59,7 +60,7 @@ void Snake::move()
 {
 
 
-	if (speed == 65)
+	if (speed == 40)
 	{
 		for (int i = body.size() - 1; i > 0; i--)
 		{
@@ -131,7 +132,9 @@ void Snake::get_point()
 			add.setPosition(-60, -60);
 			body.push_back(add);
 
+			bestScore();
 			creatingUpMargin();
+			
 		}
 
 	}
@@ -197,12 +200,9 @@ void Snake::writing(int startX, int startY, int scale, std::string inscription)
 void Snake::creatingUpMargin()
 {
 	
-	std::string score = "Score:" + std::to_string(scoreInt);
-
-	std::string bestScore = "Best score:" + std::to_string(theBestScore);
+	std::string score = "Score:" + std::to_string(scoreInt) + "  Best score:" + std::to_string(theBestScore);
 
 	writing(5, 5, 3, score);
-	writing(200, 5, 3, bestScore);
 }	
 
 void Snake::bestScore()
@@ -214,13 +214,10 @@ void Snake::bestScore()
 
 	if (scoreInt > theBestScore)
 	{
+		theBestScore = scoreInt;
 		std::ofstream source("thebestscore.txt");
 		source << scoreInt;
 		source.close();
 	}
 }
 
-Snake::~Snake()
-{
-	bestScore();
-}

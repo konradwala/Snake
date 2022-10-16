@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <fstream>
 #include"klasa.h"
+#include <time.h>
 
 
 int main()
@@ -37,7 +38,7 @@ int main()
 		}
 
 		snake->draw(window);
-
+		
 		snake->move();
 
 		snake->direction(event);
@@ -57,6 +58,7 @@ int main()
 		}
 
 		window.display();
+
 	}
 	return 0;
 }

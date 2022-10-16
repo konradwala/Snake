@@ -12,6 +12,7 @@
 #include <fstream>
 #include <math.h>
 #include <memory>
+#include <time.h>
 
 class Snake
 {
@@ -37,7 +38,6 @@ public:
 	std::vector<sf::RectangleShape> signs;
 	void creatingUpMargin();
 	void bestScore();
-	~Snake();
 };
 
 #endif
